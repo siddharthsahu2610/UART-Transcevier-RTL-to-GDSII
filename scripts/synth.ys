@@ -1,0 +1,31 @@
+# Read RTL source files
+read_verilog rtl/uart_tx.v
+read_verilog rtl/uart_rx.v
+read_verilog rtl/uart_top.v
+
+# Specify top-level module
+hierarchy -top uart_top
+
+# Convert behavioral processes
+proc
+opt
+
+# Detect FSMs
+fsm
+opt
+
+# Process memories
+memory
+opt
+
+# Technology mapping
+techmap
+
+# Boolean optimization
+abc
+
+# Print synthesis statistics
+stat
+
+# Write synthesized netlist
+write_verilog synth_uart_top.v
