@@ -28,4 +28,4 @@ abc
 stat
 
 # Write synthesized netlist
-write_verilog synth_uart_top.v
+write_verilog synth/synth_uart_top.v
