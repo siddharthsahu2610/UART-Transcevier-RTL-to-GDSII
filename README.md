@@ -1,5 +1,4 @@
 # UART-Transcevier-RTL-to-GDSII
-cat << 'EOF' > README.md
 # UART Transceiver — RTL to Gate-Level Implementation
 
 A synthesizable UART transceiver designed in Verilog RTL and taken through functional verification, logic synthesis, gate-level netlist generation, and post-synthesis gate-level simulation (GLS).
