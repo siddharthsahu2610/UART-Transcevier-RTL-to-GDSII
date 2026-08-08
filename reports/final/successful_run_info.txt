@@ -1,0 +1,105 @@
+=== SUCCESSFUL OPENLANE RUN ===
+
+OpenLane Version: 1.0.2
+OpenLane Commit: ff5509f65b17bfa4068d5336495ab1718987ff69
+
+Run ID:
+RUN_2026.08.08_12.51.17
+
+Design:
+uart_top
+
+PDK:
+sky130A
+
+Standard Cell Library:
+sky130_fd_sc_hd
+
+Clock Period:
+20 ns
+
+Clock Frequency:
+50 MHz
+
+Flow Status:
+SUCCESS
+
+Setup Violations:
+0
+
+Hold Violations:
+0
+
+DRC Violations:
+0
+
+LVS Errors:
+0
+
+Antenna Violations:
+0
+
+CVC/ERC Errors:
+0
+
+KLayout/Magic XOR Differences:
+0
+
+Max Slew Violations:
+0
+
+Max Capacitance Violations:
+0
+
+Max Fanout Violations:
+3
+
+Fanout Violations:
+clkbuf_2_1__f_clk/X : limit 10, fanout 13, slack -3
+clkbuf_2_2__f_clk/X : limit 10, fanout 13, slack -3
+clkbuf_2_3__f_clk/X : limit 10, fanout 11, slack -1
+
+Pre-layout Setup Slack:
++17.783 ns
+
+Pre-layout Hold Slack:
++0.201 ns
+
+Post-route representative slack:
++14.67 ns
+
+Die Area:
+0.01120303 mm^2
+
+Placement Utilization:
+32.53%
+
+Synthesized Cell Count:
+219
+
+OpenLane Runtime:
+1m 11s
+
+Routed Runtime:
+55s
+
+GDSII:
+Generated successfully
+
+Final DEF:
+Generated successfully
+
+Final LEF:
+Generated successfully
+
+SPEF:
+Generated successfully
+
+SDF:
+Generated successfully
+
+Notes:
+- Core was very small relative to default PDN settings; PDN was scaled down.
+- IR-drop analysis was run without VSRC_LOC_FILES, so IR-drop values may be approximate.
+- Physical-only cells were blackboxed during STA.
+- Three clock-buffer max-fanout violations remained, but setup/hold timing passed.

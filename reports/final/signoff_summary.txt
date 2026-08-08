@@ -1,0 +1,120 @@
+=== PHYSICAL DESIGN / SIGNOFF SUMMARY ===
+
+OpenLane Flow:
+RTL-to-GDSII physical implementation
+
+Design:
+uart_top
+
+Technology:
+SKY130A
+
+Standard Cell Library:
+sky130_fd_sc_hd
+
+----------------------------------------
+PHYSICAL IMPLEMENTATION
+----------------------------------------
+
+Floorplanning:
+COMPLETED
+
+Power Distribution Network:
+COMPLETED
+Note: PDN was scaled down because the core area was small.
+
+Placement:
+COMPLETED
+
+Clock Tree Synthesis:
+COMPLETED
+
+Routing:
+COMPLETED
+
+Parasitic Extraction:
+COMPLETED
+
+----------------------------------------
+TIMING SIGNOFF
+----------------------------------------
+
+Post-route setup timing:
+PASS
+
+Post-route hold timing:
+PASS
+
+Setup violations:
+0
+
+Hold violations:
+0
+
+Maximum slew violations:
+0
+
+Maximum capacitance violations:
+0
+
+Maximum fanout violations:
+3
+
+----------------------------------------
+PHYSICAL SIGNOFF
+----------------------------------------
+
+DRC:
+0 violations
+
+LVS:
+0 errors
+
+Antenna:
+0 violations
+
+ERC/CVC:
+0 errors
+
+KLayout vs Magic GDS XOR:
+0 differences
+
+----------------------------------------
+FINAL ARTIFACTS
+----------------------------------------
+
+GDSII:
+Generated
+
+DEF:
+Generated
+
+LEF:
+Generated
+
+SPEF:
+Generated
+
+SDF:
+Generated
+
+Post-layout Verilog:
+Generated
+
+----------------------------------------
+KNOWN WARNINGS
+----------------------------------------
+
+1. Three clock-buffer max-fanout violations:
+   - clkbuf_2_1__f_clk/X : fanout 13, limit 10
+   - clkbuf_2_2__f_clk/X : fanout 13, limit 10
+   - clkbuf_2_3__f_clk/X : fanout 11, limit 10
+
+2. IR-drop analysis was performed without VSRC_LOC_FILES.
+
+3. Physical-only cells were blackboxed during STA.
+
+4. PDN was automatically scaled because of the small core area.
+
+Overall Flow Status:
+SUCCESS

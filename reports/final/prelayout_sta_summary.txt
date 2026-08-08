@@ -1,0 +1,11 @@
+=== PRE-LAYOUT STATIC TIMING ANALYSIS ===
+
+Netlist: synth/uart_sky130.v
+Clock Period: 20 ns
+Clock Frequency: 50 MHz
+
+Timing Results:
+                                    17.783   slack (MET)
+                                     0.201   slack (MET)
+tns max 0.00
+wns max 0.00

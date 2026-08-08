@@ -1,0 +1,21 @@
+=== TOOL / PDK VERSIONS ===
+
+OpenLane:
+
+Yosys:
+Yosys 0.30+48 (git sha1 14d50a176d5, gcc 8.3.1 -fPIC -Os)
+
+OpenROAD:
+41a51eaf4ca2171c92ff38afb91eb37bbd3f36da 
+
+OpenSTA:
+2.4.0
+
+PDK_ROOT:
+/home/siddharthsahu2610/.ciel
+
+SKY130A:
+/home/siddharthsahu2610/.ciel/ciel/sky130/versions/0fe599b2afb6708d281543108caf8310912f54af/sky130A
+
+Standard Cell Library:
+sky130_fd_sc_hd

@@ -1,0 +1,50 @@
+=== FINAL PHYSICAL DESIGN ARTIFACT INVENTORY ===
+
+Design:
+uart_top
+
+OpenLane Run:
+RUN_2026.08.08_12.51.17
+
+Final Physical Views:
+
+GDSII:
+uart_top.gds
+
+DEF:
+uart_top.def
+
+LEF:
+uart_top.lef
+
+Post-layout Verilog:
+uart_top.v
+
+Standard Delay Format:
+uart_top.sdf
+
+Standard Parasitic Exchange Format:
+uart_top.spef
+
+SPICE:
+uart_top.spice
+
+Magic Layout:
+uart_top.mag
+
+Magic LEF:
+uart_top.maglef
+
+Synthesis / Placement / CTS / Routing DEF:
+- floorplan/uart_top.def
+- placement/uart_top.def
+- cts/uart_top.def
+- routing/uart_top.def
+
+Signoff GDS:
+- uart_top.gds
+- uart_top.magic.gds
+- uart_top.klayout.gds
+
+GDS Cross-check:
+Magic vs KLayout XOR = 0 differences
