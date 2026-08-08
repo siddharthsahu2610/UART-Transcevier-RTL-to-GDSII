@@ -1,54 +1,160 @@
 PROJECT_DIR = $(shell pwd)
 
-RTL_SRCS    = $(PROJECT_DIR)/rtl/uart_rx.v \
-              $(PROJECT_DIR)/rtl/uart_tx.v \
-              $(PROJECT_DIR)/rtl/uart_top.v
+# ============================================================
+# RTL SOURCES
+# ============================================================
 
-TB_SRC      = $(PROJECT_DIR)/tb/uart_top_tb.v
-CPP_MAIN    = $(PROJECT_DIR)/tb/sim_main.cpp
+RTL_SRCS = $(PROJECT_DIR)/rtl/uart_rx.v \
+           $(PROJECT_DIR)/rtl/uart_tx.v \
+           $(PROJECT_DIR)/rtl/uart_top.v
 
+# ============================================================
+# TESTBENCH SOURCES
+# ============================================================
+
+RTL_TB  = $(PROJECT_DIR)/tb/uart_top_tb.v
+RTL_CPP = $(PROJECT_DIR)/tb/sim_main.cpp
+
+GATE_TB  = $(PROJECT_DIR)/tb/uart_gate_tb.v
+GATE_CPP = $(PROJECT_DIR)/tb/sim_gate_main.cpp
+
+# ============================================================
+# SYNTHESIS
+# ============================================================
+
+SYNTH_SCRIPT  = $(PROJECT_DIR)/scripts/synth.ys
 SYNTH_NETLIST = $(PROJECT_DIR)/synth/synth_uart_top.v
 
-VERILATOR_FLAGS = -Wall --timing --trace -cc --exe \
-                  -I$(PROJECT_DIR)/rtl -I$(PROJECT_DIR)/tb \
-                  -Wno-DECLFILENAME \
-                  -Wno-UNUSEDSIGNAL \
-                  -Wno-PROCASSINIT \
-                  -Wno-INITIALDLY
+# ============================================================
+# VERILATOR OPTIONS
+# ============================================================
 
-.PHONY: all sim synth wave clean
+VERILATOR_COMMON = --timing --trace -Wall \
+                   --Wno-fatal \
+                   -Wno-DECLFILENAME \
+                   -Wno-TIMESCALEMOD \
+                   -Wno-UNUSEDSIGNAL \
+                   -Wno-PROCASSINIT \
+                   -Wno-INITIALDLY
+
+VERILATOR_INCLUDES = -I$(PROJECT_DIR)/rtl \
+                     -I$(PROJECT_DIR)/tb
+
+# ============================================================
+# DEFAULT TARGET
+# ============================================================
+
+.PHONY: all sim synth gate wave clean
 
 all: sim
 
-# ----------------------------------------------------
-# RTL Simulation
-# ----------------------------------------------------
+# ============================================================
+# RTL FUNCTIONAL SIMULATION
+# ============================================================
+
 sim:
-	@mkdir -p sim
-	@echo "=== RTL Simulation ==="
-	verilator $(VERILATOR_FLAGS) $(RTL_SRCS) $(TB_SRC) $(CPP_MAIN) --top-module uart_top_tb
+	@mkdir -p sim waves
+	@echo ""
+	@echo "================================================"
+	@echo "          RTL FUNCTIONAL SIMULATION"
+	@echo "================================================"
+	@echo ""
+
+	verilator $(VERILATOR_COMMON) \
+	          --cc --exe \
+	          $(VERILATOR_INCLUDES) \
+	          $(RTL_SRCS) \
+	          $(RTL_TB) \
+	          $(RTL_CPP) \
+	          --top-module uart_top_tb
+
 	make -C obj_dir -f Vuart_top_tb.mk Vuart_top_tb
+
 	./obj_dir/Vuart_top_tb
 
-# ----------------------------------------------------
-# Logic Synthesis
-# ----------------------------------------------------
+# ============================================================
+# LOGIC SYNTHESIS
+# ============================================================
+
 synth:
 	@mkdir -p synth reports
-	@echo "=== Running Yosys Synthesis ==="
-	yosys scripts/synth.ys | tee reports/yosys.log
+	@echo ""
+	@echo "================================================"
+	@echo "             YOSYS LOGIC SYNTHESIS"
+	@echo "================================================"
+	@echo ""
 
-# ----------------------------------------------------
-# View Waveforms
-# ----------------------------------------------------
+	yosys $(SYNTH_SCRIPT) | tee reports/yosys.log
+
+# ============================================================
+# GATE-LEVEL FUNCTIONAL SIMULATION
+# ============================================================
+
+gate:
+	@mkdir -p waves
+	@echo ""
+	@echo "================================================"
+	@echo "       GATE-LEVEL FUNCTIONAL SIMULATION"
+	@echo "================================================"
+	@echo ""
+
+	@if [ ! -f "$(SYNTH_NETLIST)" ]; then \
+		echo "ERROR: Synthesized netlist not found."; \
+		echo "Run 'make synth' first."; \
+		exit 1; \
+	fi
+
+	verilator $(VERILATOR_COMMON) \
+	          --cc --exe \
+	          $(VERILATOR_INCLUDES) \
+	          $(SYNTH_NETLIST) \
+	          $(GATE_TB) \
+	          $(GATE_CPP) \
+	          --top-module uart_gate_tb
+
+	make -C obj_dir -f Vuart_gate_tb.mk Vuart_gate_tb
+
+	./obj_dir/Vuart_gate_tb
+
+# ============================================================
+# WAVEFORM VIEWER
+# ============================================================
+
 wave:
-	gtkwave sim/uart_trace.vcd &
+	@echo "Opening gate-level waveform..."
+	gtkwave waves/gate_uart_trace.vcd &
 
-# ----------------------------------------------------
-# Clean Generated Files
-# ----------------------------------------------------
+# ============================================================
+# CLEAN BUILD ARTIFACTS
+# ============================================================
+
 clean:
-	rm -rf obj_dir sim
+	@echo "Cleaning generated build files..."
+
+	rm -rf obj_dir
+	rm -rf sim
+
+	rm -f waves/*.vcd
+	rm -f waves/*.fst
+	rm -f waves/*.gtkw
+
 	rm -f reports/*.log
-	rm -f synth/*.v
+
+# ============================================================
+# HELP
+# ============================================================
+
+help:
+	@echo ""
+	@echo "UART Transceiver Build System"
+	@echo ""
+	@echo "Available targets:"
+	@echo ""
+	@echo "  make sim       - Run RTL functional simulation"
+	@echo "  make synth     - Run Yosys logic synthesis"
+	@echo "  make gate      - Run gate-level functional simulation"
+	@echo "  make wave      - Open gate-level waveform"
+	@echo "  make clean     - Remove generated build artifacts"
+	@echo "  make help      - Display this help message"
+	@echo ""
 
